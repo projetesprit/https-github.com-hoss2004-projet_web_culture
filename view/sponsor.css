@@ -1,0 +1,109 @@
+/* Section des sponsors */
+.sponsor-section {
+    background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+    padding: 80px 20px;
+    overflow: hidden;
+}
+
+.sponsor-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    justify-items: center;
+    animation: fadeInUp 1s ease-in-out both;
+}
+
+/* Chaque élément sponsor */
+.sponsor-item {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+    overflow: hidden;
+    max-width: 280px;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+}
+
+.sponsor-item:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background-color: #f0f4f8;
+}
+
+/* Animation pour chaque sponsor-item */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Logo du sponsor */
+.sponsor-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: transform 0.5s ease, box-shadow 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sponsor-logo:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Titre du sponsor */
+.sponsor-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #34495e;
+}
+
+/* Description du sponsor */
+.sponsor-description {
+    font-size: 14px;
+    color: #7a7d82;
+    margin-top: 10px;
+    line-height: 1.6;
+    padding: 0 10px;
+}
+
+/* Lien vers le site du sponsor */
+.sponsor-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background: linear-gradient(135deg, #81B29A, #6d947e);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.sponsor-link:hover {
+    background: linear-gradient(135deg, #7a9e87, #577d62);
+    transform: translateY(-3px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sponsor-item {
+        max-width: 100%;
+    }
+
+    .sponsor-wrapper {
+        gap: 20px;
+    }
+}
