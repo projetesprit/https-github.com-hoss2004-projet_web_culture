@@ -456,71 +456,95 @@ https://templatemo.com/tm-587-tiya-golf-club
                 </div>
 
             </div>
-            </div>
             <section class="events-section section-bg section-padding" id="section_4">
                 <?php
     require_once '../controller/eventController.php';  // Inclure le contrôleur pour obtenir les événements
 
-    // Récupérer les événements à afficher
-    $events = listEvents();  
+    // Récupérer tous les événements
+    $events = listEvents();
     ?>
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-12">
                             <h2 class="mb-lg-3">Événements à venir</h2>
+                            <div class="search-bar mb-4">
+                                <!-- Barre de recherche -->
+                                <input type="text" id="searchInput" class="form-control"
+                                    placeholder="Rechercher un événement...">
+                            </div>
                         </div>
+                    </div>
 
+                    <div class="row" id="eventsContainer">
+                        <!-- Afficher tous les événements -->
                         <?php if (!empty($events)) : ?>
-                        <?php $counter = 0; // Variable pour alterner les cadres ?>
+                        <?php $counter = 0; ?>
                         <?php foreach ($events as $event) : ?>
-                        <div class="row custom-block mb-3 <?php echo ($counter % 2 === 0) ? 'with-border' : ''; ?>">
-                            <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                                <div
-                                    class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                                    <h6 class="custom-block-date mb-lg-1 mb-0 me-3 me-lg-0 me-md-0">
-                                        <?= date('d', strtotime($event['date'])) ?>
-                                    </h6>
-                                    <strong class="text-white">
-                                        <?= date('M Y', strtotime($event['date'])) ?>
-                                    </strong>
+                        <div class="col-lg-12 custom-block mb-3 event-item <?php echo ($counter % 2 === 0) ? 'with-border' : ''; ?>"
+                            data-title="<?= htmlspecialchars(strtolower($event['title'])) ?>">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
+                                    <div
+                                        class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
+                                        <h6 class="custom-block-date mb-lg-1 mb-0 me-3 me-lg-0 me-md-0">
+                                            <?= date('d', strtotime($event['date'])) ?>
+                                        </h6>
+                                        <strong class="text-white">
+                                            <?= date('M Y', strtotime($event['date'])) ?>
+                                        </strong>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                                <div class="custom-block-image-wrap">
-                                    <img src="<?= htmlspecialchars($event['image']) ?>"
-                                        class="custom-block-image img-fluid"
-                                        alt="<?= htmlspecialchars($event['title']) ?>">
+                                <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
+                                    <div class="custom-block-image-wrap">
+                                        <img src="<?= htmlspecialchars($event['image']) ?>"
+                                            class="custom-block-image img-fluid"
+                                            alt="<?= htmlspecialchars($event['title']) ?>">
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12 order-3 order-lg-0">
-                                <div class="custom-block-info mt-2 mt-lg-0">
-                                    <a href="event-detail.php?id=<?= $event['id'] ?>" class="events-title mb-3">
-                                        <?= htmlspecialchars($event['title']) ?>
-                                    </a>
-                                    <p class="mb-0"><?= htmlspecialchars($event['description']) ?></p>
-                                    <div class="d-flex flex-wrap border-top mt-4 pt-3">
-                                        <div class="mb-4 mb-lg-0">
-                                            <div class="d-flex flex-wrap align-items-center mb-1">
-                                                <span class="custom-block-span">Location:</span>
-                                                <p class="mb-0"><?= htmlspecialchars($event['location']) ?></p>
+                                <div class="col-lg-6 col-12 order-3 order-lg-0">
+                                    <div class="custom-block-info mt-2 mt-lg-0">
+                                        <a href="event-detail.php?id=<?= $event['id'] ?>" class="events-title mb-3">
+                                            <?= htmlspecialchars($event['title']) ?>
+                                        </a>
+                                        <p class="mb-0"><?= htmlspecialchars($event['description']) ?></p>
+                                        <div class="d-flex flex-wrap border-top mt-4 pt-3">
+                                            <div class="mb-4 mb-lg-0">
+                                                <div class="d-flex flex-wrap align-items-center mb-1">
+                                                    <span class="custom-block-span">Location:</span>
+                                                    <p class="mb-0"><?= htmlspecialchars($event['location']) ?></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <?php $counter++; // Incrémenter le compteur ?>
+                        <?php $counter++; ?>
                         <?php endforeach; ?>
                         <?php else : ?>
                         <p class="text-center">Aucun événement à venir trouvé.</p>
                         <?php endif; ?>
-
                     </div>
                 </div>
             </section>
 
+            <script>
+            // Fonction de recherche dynamique
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const query = this.value.trim()
+            .toLowerCase(); // Convertir en minuscules et supprimer les espaces
+                const events = document.querySelectorAll('.event-item'); // Sélectionner tous les événements
+
+                events.forEach(event => {
+                    const title = event.getAttribute('data-title'); // Obtenir le titre de l'événement
+                    if (title.includes(query)) {
+                        event.style.display = ''; // Afficher l'événement si le titre correspond
+                    } else {
+                        event.style.display = 'none'; // Masquer l'événement sinon
+                    }
+                });
+            });
+            </script>
 
             <style>
             /* Style pour les événements avec un cadre blanc */
@@ -535,8 +559,6 @@ https://templatemo.com/tm-587-tiya-golf-club
                 background-color: transparent;
             }
             </style>
-
-
 
 
             <section class="contact-section section-padding" id="section_5">

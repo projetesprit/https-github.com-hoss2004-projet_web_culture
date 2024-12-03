@@ -19,6 +19,8 @@ function getEventById($id) {
     return $eventManager->getEventById($id); 
 }
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? null;
     $date = $_POST['date'] ?? null;
