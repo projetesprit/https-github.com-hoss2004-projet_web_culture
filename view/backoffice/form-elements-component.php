@@ -490,44 +490,65 @@
                                                     </div>
                                                     <div class="card-block">
                                                         <!-- Formulaire pour ajouter un événement -->
-                                                        <form action="../../controller/eventController.php"
-                                                            method="POST" enctype="multipart/form-data" id="eventForm">
-                                                            <div class="form-group">
-                                                                <input type="text" name="title"
-                                                                    placeholder="Titre de l'événement" id="title">
-                                                                <span id="titleError"></span>
+                                                        <form class="form-material"
+                                                            action="../../controller/eventController.php" method="POST"
+                                                            enctype="multipart/form-data" id="eventForm">
+                                                            <!-- Titre de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="text" name="title" class="form-control"
+                                                                    placeholder="Titre de l'événement" id="title" />
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Titre de l'événement</label>
+                                                                <span id="titleError" class="error-message"></span>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input type="date" name="date" id="date">
+
+                                                            <!-- Date de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="date" name="date" class="form-control"
+                                                                    id="date" />
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Date</label>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input type="text" name="location" placeholder="Lieu"
-                                                                    id="location">
-                                                                <span id="locationError"></span>
+
+                                                            <!-- Lieu de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="text" name="location" class="form-control"
+                                                                    placeholder="Lieu" id="location" />
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Lieu</label>
+                                                                <span id="locationError" class="error-message"></span>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <textarea name="description" placeholder="Description"
+
+                                                            <!-- Description de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <textarea name="description" class="form-control"
+                                                                    placeholder="Description"
                                                                     id="description"></textarea>
-                                                                <span id="descriptionError"></span>
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Description</label>
+                                                                <span id="descriptionError"
+                                                                    class="error-message"></span>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input type="file" name="image" accept="image/*"
-                                                                    required id="image">
-                                                                <span id="imageError"></span>
+
+                                                            <!-- Image de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="file" name="image" class="form-control"
+                                                                    accept="image/*" required id="image" />
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Image</label>
+                                                                <span id="imageError" class="error-message"></span>
                                                             </div>
+
                                                             <!-- Sélection du sponsor -->
-                                                            <?php
-                                    // Inclure les fichiers nécessaires
-                                    require_once '../../model/DB.php';
-                                    require_once '../../controller/sponsorManager.php';  // Assurez-vous que le chemin est correct
-                                    $sponsors = getAllSponsors();  // Cette fonction récupère les sponsors de la base de données
-                                    ?>
-                                                            <div class="form-group">
-                                                                <select name="id_sponsor" required>
+                                                            <div class="form-group form-default form-static-label">
+                                                                <select name="id_sponsor" class="form-control" required>
                                                                     <option value="">-- Sélectionnez un sponsor --
                                                                     </option>
                                                                     <?php
-                                            // Vérifier si des sponsors sont récupérés
+                                            // Inclure les fichiers nécessaires
+                                            require_once '../../model/DB.php';
+                                            require_once '../../controller/sponsorManager.php';  // Assurez-vous que le chemin est correct
+                                            $sponsors = getAllSponsors();  // Cette fonction récupère les sponsors de la base de données
                                             if (!empty($sponsors)) {
                                                 foreach ($sponsors as $sponsor) {
                                                     echo "<option value='{$sponsor['id_sponsor']}'>{$sponsor['nom_sp']}</option>";
@@ -537,10 +558,15 @@
                                             }
                                             ?>
                                                                 </select>
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Sponsor</label>
                                                             </div>
+
                                                             <!-- Bouton de soumission -->
-                                                            <button
-                                                                type="submit"><?= isset($event) ? 'Mettre à jour' : 'Ajouter' ?></button>
+                                                            <div class="form-group">
+                                                                <button type="submit"
+                                                                    class="btn btn-primary"><?= isset($event) ? 'Mettre à jour' : 'Ajouter' ?></button>
+                                                            </div>
                                                             <?php if (isset($event)): ?>
                                                             <input type="hidden" name="id" value="<?= $event['id'] ?>">
                                                             <?php endif; ?>
@@ -550,9 +576,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Page body end -->
                                 </div>
                             </div>
+                            <!-- Main-body end -->
                         </div>
+
 
                         <!-- Script de validation en temps réel -->
                         <script>

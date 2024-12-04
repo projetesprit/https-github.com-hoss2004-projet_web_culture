@@ -35,6 +35,7 @@ https://templatemo.com/tm-587-tiya-golf-club
 
 <body>
 
+
     <main>
 
         <nav class="navbar navbar-expand-lg">
@@ -63,33 +64,55 @@ https://templatemo.com/tm-587-tiya-golf-club
                         <li class="nav-item">
                             <a class="nav-link click-scroll" href="#section_1">Accueil</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link click-scroll" href="#section_2">À propos</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link click-scroll" href="#section_3">Membres</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link click-scroll" href="#section_4">Événements</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link click-scroll" href="#section_5">Contactez-nous</a>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
                                 <li><a class="dropdown-item" href="event-listing.html">Event Listing</a></li>
-
                                 <li><a class="dropdown-item" href="event-detail.html">Event Detail</a></li>
                             </ul>
                         </li>
+
+                        <!-- Notifications -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i> Notifications
+                                <span class="badge bg-danger">
+                                    <?php
+                            // Assurez-vous que le contrôleur est inclus et que la méthode retourne les notifications non lues
+                            require_once '../controller/NotificationController.php';
+                            $notificationController = new NotificationController();
+                            $unreadNotifications = $notificationController->fetchUnreadNotifications();
+                            echo count($unreadNotifications); // Affiche le nombre de notifications non lues
+                            ?>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
+                                <?php
+                        foreach ($unreadNotifications as $notification) {
+                            echo '<li><a class="dropdown-item" href="markAsRead.php?id=' . $notification['id'] . '">' . htmlspecialchars($notification['message']) . '</a></li>';
+                        }
+                        ?>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                            </ul>
+                        </li>
+
                     </ul>
 
                     <div class="d-none d-lg-block ms-lg-3">
@@ -99,6 +122,8 @@ https://templatemo.com/tm-587-tiya-golf-club
                 </div>
             </div>
         </nav>
+
+
 
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample"
             aria-labelledby="offcanvasExampleLabel">
@@ -532,7 +557,7 @@ https://templatemo.com/tm-587-tiya-golf-club
             // Fonction de recherche dynamique
             document.getElementById('searchInput').addEventListener('input', function() {
                 const query = this.value.trim()
-            .toLowerCase(); // Convertir en minuscules et supprimer les espaces
+                    .toLowerCase(); // Convertir en minuscules et supprimer les espaces
                 const events = document.querySelectorAll('.event-item'); // Sélectionner tous les événements
 
                 events.forEach(event => {

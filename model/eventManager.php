@@ -1,6 +1,9 @@
 <?php
 require_once 'DB.php';
 require_once 'Event.php';
+require_once '../controller/NotificationController.php';
+
+
 
 class EventManager
 {
@@ -14,6 +17,7 @@ class EventManager
     public function createEvent(Event $event)
     {
         try {
+            // Insérer l'événement dans la base de données
             $sql = "INSERT INTO events (title, date, location, description, image, id_sponsor) 
                     VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->pdo->prepare($sql);
@@ -25,11 +29,19 @@ class EventManager
                 $event->getImage(),
                 $event->getIdSponsor()
             ]);
+    
+            // Récupérer l'ID de l'événement inséré
+            $eventId = $this->pdo->lastInsertId();
+    
+            // Créer la notification
+            $notificationMessage = "Un nouvel événement a été créé : " . $event->getTitle();
+            $notificationManager = new NotificationManager($this->pdo);
+            $notificationManager->addNotification($notificationMessage, $eventId);
+    
         } catch (PDOException $e) {
             die('Erreur lors de la création de l\'événement : ' . $e->getMessage());
         }
     }
-
     public function getAllEvents()
     {
         try {
@@ -70,13 +82,23 @@ class EventManager
     }
 
    // Supprimer un événement par ID
-public function deleteEvent($id_event) {
-    $pdo = Database::getConnection();
-    $sql = "DELETE FROM events WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id', $id_event, PDO::PARAM_INT);
-    $stmt->execute();
+   public function deleteEvent($id_event) {
+    try {
+        // Supprimer les notifications liées à cet événement
+        $sql = "DELETE FROM notifications WHERE event_id = :id_event";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id_event', $id_event, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Supprimer l'événement
+        $sql = "DELETE FROM events WHERE id = :id_event";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id_event', $id_event, PDO::PARAM_INT);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        die('Erreur lors de la suppression de l\'événement : ' . $e->getMessage());
+    }
+}
 }
 
-}
 ?>
