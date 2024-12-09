@@ -1,7 +1,7 @@
 <?php
 require_once 'DB.php';
 require_once 'Event.php';
-require_once '../controller/NotificationController.php';
+//require_once '../controller/NotificationController.php';
 
 
 

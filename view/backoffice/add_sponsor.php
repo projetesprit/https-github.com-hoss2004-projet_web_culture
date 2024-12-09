@@ -255,7 +255,6 @@
                                             </a>
                                         </li>
 
-
                                     </ul>
                                 </li>
                             </ul>
@@ -278,6 +277,7 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
+
 
                             </ul>
 
@@ -312,139 +312,78 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Page-header end -->
-                        <div class="pcoded-inner-content">
-                            <!-- Main-body start -->
-                            <div class="main-body">
-                                <div class="page-wrapper">
-                                    <!-- Page body start -->
-                                    <div class="page-body">
-                                        <div class="row">
-                                            <!-- Formulaire pour ajouter ou modifier un événement -->
-                                            <div class="col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5>Ajouter ou Modifier un événement</h5>
-                                                    </div>
-                                                    <div class="card-block">
-                                                        <?php
-                                // Assurez-vous que vous avez l'ID de l'événement
-                                if (isset($_GET['id'])) {
-                                    $id = $_GET['id'];
 
-                                    // Récupérer l'événement de la base de données en utilisant le modèle
-                                    require_once '../../controller/eventController.php';
-                                    $event = getEventById($id);
-                                }
-
-                                // Inclure les fichiers nécessaires pour les sponsors
-                                require_once '../../model/DB.php';
-                                require_once '../../controller/sponsorManager.php';  // Assurez-vous que le chemin est correct
-
-                                // Récupérer les sponsors
-                                $sponsors = getAllSponsors();  // Cette fonction récupère les sponsors de la base de données
-                                ?>
-
-                                                        <form action="../../controller/eventController.php"
-                                                            method="POST" enctype="multipart/form-data">
-                                                            <!-- Titre -->
-                                                            <div class="form-group form-default">
-                                                                <input type="text" id="title" name="title"
-                                                                    class="form-control"
-                                                                    value="<?= htmlspecialchars($event['title']); ?>"
-                                                                    required />
-                                                                <span class="form-bar"></span>
-                                                                <label class="float-label" for="title">Titre de
-                                                                    l'événement</label>
-                                                            </div>
-
-                                                            <!-- Date -->
-                                                            <div class="form-group form-default">
-                                                                <input type="date" id="date" name="date"
-                                                                    class="form-control"
-                                                                    value="<?= htmlspecialchars($event['date']); ?>"
-                                                                    required />
-                                                                <span class="form-bar"></span>
-                                                            </div>
-
-                                                            <!-- Lieu -->
-                                                            <div class="form-group form-default">
-                                                                <input type="text" id="location" name="location"
-                                                                    class="form-control"
-                                                                    value="<?= htmlspecialchars($event['location']); ?>"
-                                                                    required />
-                                                                <span class="form-bar"></span>
-                                                                <label class="float-label" for="location">Lieu</label>
-                                                            </div>
-
-                                                            <!-- Description -->
-                                                            <div class="form-group form-default">
-                                                                <textarea id="description" name="description"
-                                                                    class="form-control"
-                                                                    required><?= htmlspecialchars($event['description']); ?></textarea>
-                                                                <span class="form-bar"></span>
-                                                                <label class="float-label"
-                                                                    for="description">Description</label>
-                                                            </div>
-
-                                                            <!-- Image (Optionnelle) -->
-                                                            <div class="form-group form-default">
-                                                                <input type="file" id="image" name="image"
-                                                                    accept="image/*" class="form-control" />
-                                                                <span class="form-bar"></span>
-                                                            </div>
-
-                                                            <!-- Sélection du sponsor -->
-                                                            <div class="form-group">
-                                                                <select name="id_sponsor" required>
-                                                                    <option value="">-- Sélectionnez un sponsor --
-                                                                    </option>
-                                                                    <?php
-                                            // Vérifier si des sponsors sont récupérés
-                                            if (!empty($sponsors)) {
-                                                foreach ($sponsors as $sponsor) {
-                                                    $selected = ($sponsor['id_sponsor'] == $event['id_sponsor']) ? 'selected' : '';
-                                                    echo "<option value='{$sponsor['id_sponsor']}' {$selected}>{$sponsor['nom_sp']}</option>";
-                                                }
-                                            } else {
-                                                echo "<option value=''>Aucun sponsor disponible</option>";
-                                            }
-                                            ?>
-                                                                </select>
-                                                            </div>
-
-                                                            <!-- Bouton d'envoi -->
-                                                            <div class="form-group form-default">
-                                                                <button type="submit" class="btn custom-btn">Modifier
-                                                                    l'événement</button>
-                                                            </div>
-
-                                                            <!-- Inclure l'ID de l'événement dans un champ caché -->
-                                                            <input type="hidden" name="id"
-                                                                value="<?= $event['id']; ?>" />
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Formulaire pour ajouter un sponsor -->
-
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Ajouter un Sponsor</h5>
+                                </div>
+                                <div class="card-block">
+                                    <form class="form-material" action="../../controller/sponsorController.php"
+                                        method="POST" enctype="multipart/form-data" id="sponsorForm">
+                                        <!-- Nom du Sponsor -->
+                                        <div class="form-group form-default form-static-label">
+                                            <input type="text" name="nom_sp" class="form-control"
+                                                placeholder="Nom du sponsor" id="nom_sp" />
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Nom du Sponsor</label>
+                                            <span id="nom_sp_error" class="error-message"></span>
                                         </div>
-                                    </div>
-                                    <!-- Page body end -->
+
+                                        <!-- Logo du Sponsor -->
+                                        <div class="form-group form-default form-static-label">
+                                            <input type="file" name="logo" class="form-control" accept="image/*"
+                                                required id="logo" />
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Logo du Sponsor</label>
+                                            <span id="logo_error" class="error-message"></span>
+                                        </div>
+
+                                        <!-- Website du Sponsor -->
+                                        <div class="form-group form-default form-static-label">
+                                            <input type="url" name="website" class="form-control"
+                                                placeholder="Website du sponsor" id="website" />
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Website</label>
+                                            <span id="website_error" class="error-message"></span>
+                                        </div>
+
+                                        <!-- Description du Sponsor -->
+                                        <div class="form-group form-default form-static-label">
+                                            <textarea name="description" class="form-control"
+                                                id="description"></textarea>
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Description du Sponsor</label>
+                                            <span id="description_error" class="error-message"></span>
+                                        </div>
+
+                                        <!-- Bouton de soumission -->
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Ajouter le Sponsor</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
 
-
+                        <!-- Script de validation -->
 
                     </div>
-                    <!-- Page body end -->
+
+                    <!-- Page-header end -->
+
+
+
+                    <!-- Input Alignment card end -->
                 </div>
             </div>
-            <!-- Main-body end -->
-            <div id="styleSelector"></div>
         </div>
+        <!-- Page body end -->
+    </div>
+    </div>
+    <!-- Main-body end -->
+    <div id="styleSelector"></div>
+    </div>
     </div>
     </div>
     </div>

@@ -83,6 +83,8 @@ https://templatemo.com/tm-587-tiya-golf-club
                                     <span class="custom-block-span">Location:</span>
                                     <p class="mb-0"><?= htmlspecialchars($event['location']); ?></p>
                                 </div>
+                                <a href="inscription.php?id=<?= $event['id'] ?>"
+                                    class="btn btn-primary mt-3">S'inscrire</a>
                             </div>
                         </div>
                     </div>

@@ -255,7 +255,6 @@
                                             </a>
                                         </li>
 
-
                                     </ul>
                                 </li>
                             </ul>
@@ -278,6 +277,7 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
+
 
                             </ul>
 
@@ -312,7 +312,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Page-header end -->
                         <div class="pcoded-inner-content">
                             <!-- Main-body start -->
                             <div class="main-body">
@@ -320,131 +319,201 @@
                                     <!-- Page body start -->
                                     <div class="page-body">
                                         <div class="row">
-                                            <!-- Formulaire pour ajouter ou modifier un événement -->
                                             <div class="col-md-6">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Ajouter ou Modifier un événement</h5>
+                                                        <h5>Ajouter événement</h5>
                                                     </div>
                                                     <div class="card-block">
-                                                        <?php
-                                // Assurez-vous que vous avez l'ID de l'événement
-                                if (isset($_GET['id'])) {
-                                    $id = $_GET['id'];
-
-                                    // Récupérer l'événement de la base de données en utilisant le modèle
-                                    require_once '../../controller/eventController.php';
-                                    $event = getEventById($id);
-                                }
-
-                                // Inclure les fichiers nécessaires pour les sponsors
-                                require_once '../../model/DB.php';
-                                require_once '../../controller/sponsorManager.php';  // Assurez-vous que le chemin est correct
-
-                                // Récupérer les sponsors
-                                $sponsors = getAllSponsors();  // Cette fonction récupère les sponsors de la base de données
-                                ?>
-
-                                                        <form action="../../controller/eventController.php"
-                                                            method="POST" enctype="multipart/form-data">
-                                                            <!-- Titre -->
-                                                            <div class="form-group form-default">
-                                                                <input type="text" id="title" name="title"
-                                                                    class="form-control"
-                                                                    value="<?= htmlspecialchars($event['title']); ?>"
-                                                                    required />
+                                                        <!-- Formulaire pour ajouter un événement -->
+                                                        <form class="form-material"
+                                                            action="../../controller/eventController.php" method="POST"
+                                                            enctype="multipart/form-data" id="eventForm">
+                                                            <!-- Titre de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="text" name="title" class="form-control"
+                                                                    placeholder="Titre de l'événement" id="title" />
                                                                 <span class="form-bar"></span>
-                                                                <label class="float-label" for="title">Titre de
-                                                                    l'événement</label>
+                                                                <label class="float-label">Titre de l'événement</label>
+                                                                <span id="titleError" class="error-message"></span>
                                                             </div>
 
-                                                            <!-- Date -->
-                                                            <div class="form-group form-default">
-                                                                <input type="date" id="date" name="date"
-                                                                    class="form-control"
-                                                                    value="<?= htmlspecialchars($event['date']); ?>"
-                                                                    required />
+                                                            <!-- Date de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="date" name="date" class="form-control"
+                                                                    id="date" />
                                                                 <span class="form-bar"></span>
+                                                                <label class="float-label">Date</label>
                                                             </div>
 
-                                                            <!-- Lieu -->
-                                                            <div class="form-group form-default">
-                                                                <input type="text" id="location" name="location"
-                                                                    class="form-control"
-                                                                    value="<?= htmlspecialchars($event['location']); ?>"
-                                                                    required />
+                                                            <!-- Lieu de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="text" name="location" class="form-control"
+                                                                    placeholder="Lieu" id="location" />
                                                                 <span class="form-bar"></span>
-                                                                <label class="float-label" for="location">Lieu</label>
+                                                                <label class="float-label">Lieu</label>
+                                                                <span id="locationError" class="error-message"></span>
                                                             </div>
 
-                                                            <!-- Description -->
-                                                            <div class="form-group form-default">
-                                                                <textarea id="description" name="description"
-                                                                    class="form-control"
-                                                                    required><?= htmlspecialchars($event['description']); ?></textarea>
+                                                            <!-- Description de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <textarea name="description" class="form-control"
+                                                                    placeholder="Description"
+                                                                    id="description"></textarea>
                                                                 <span class="form-bar"></span>
-                                                                <label class="float-label"
-                                                                    for="description">Description</label>
+                                                                <label class="float-label">Description</label>
+                                                                <span id="descriptionError"
+                                                                    class="error-message"></span>
                                                             </div>
 
-                                                            <!-- Image (Optionnelle) -->
-                                                            <div class="form-group form-default">
-                                                                <input type="file" id="image" name="image"
-                                                                    accept="image/*" class="form-control" />
+                                                            <!-- Image de l'événement -->
+                                                            <div class="form-group form-default form-static-label">
+                                                                <input type="file" name="image" class="form-control"
+                                                                    accept="image/*" required id="image" />
                                                                 <span class="form-bar"></span>
+                                                                <label class="float-label">Image</label>
+                                                                <span id="imageError" class="error-message"></span>
                                                             </div>
 
                                                             <!-- Sélection du sponsor -->
-                                                            <div class="form-group">
-                                                                <select name="id_sponsor" required>
+                                                            <div class="form-group form-default form-static-label">
+                                                                <select name="id_sponsor" class="form-control" required>
                                                                     <option value="">-- Sélectionnez un sponsor --
                                                                     </option>
                                                                     <?php
-                                            // Vérifier si des sponsors sont récupérés
+                                            // Inclure les fichiers nécessaires
+                                            require_once '../../model/DB.php';
+                                            require_once '../../controller/sponsorManager.php';  // Assurez-vous que le chemin est correct
+                                            $sponsors = getAllSponsors();  // Cette fonction récupère les sponsors de la base de données
                                             if (!empty($sponsors)) {
                                                 foreach ($sponsors as $sponsor) {
-                                                    $selected = ($sponsor['id_sponsor'] == $event['id_sponsor']) ? 'selected' : '';
-                                                    echo "<option value='{$sponsor['id_sponsor']}' {$selected}>{$sponsor['nom_sp']}</option>";
+                                                    echo "<option value='{$sponsor['id_sponsor']}'>{$sponsor['nom_sp']}</option>";
                                                 }
                                             } else {
                                                 echo "<option value=''>Aucun sponsor disponible</option>";
                                             }
                                             ?>
                                                                 </select>
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label">Sponsor</label>
                                                             </div>
 
-                                                            <!-- Bouton d'envoi -->
-                                                            <div class="form-group form-default">
-                                                                <button type="submit" class="btn custom-btn">Modifier
-                                                                    l'événement</button>
+                                                            <!-- Bouton de soumission -->
+                                                            <div class="form-group">
+                                                                <button type="submit"
+                                                                    class="btn btn-primary"><?= isset($event) ? 'Mettre à jour' : 'Ajouter' ?></button>
                                                             </div>
-
-                                                            <!-- Inclure l'ID de l'événement dans un champ caché -->
-                                                            <input type="hidden" name="id"
-                                                                value="<?= $event['id']; ?>" />
+                                                            <?php if (isset($event)): ?>
+                                                            <input type="hidden" name="id" value="<?= $event['id'] ?>">
+                                                            <?php endif; ?>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <!-- Formulaire pour ajouter un sponsor -->
-
                                         </div>
                                     </div>
                                     <!-- Page body end -->
                                 </div>
                             </div>
+                            <!-- Main-body end -->
                         </div>
 
 
+                        <!-- Script de validation en temps réel -->
+                        <script>
+                        // Fonction de validation pour le titre
+                        function validateTitle() {
+                            const title = document.getElementById('title').value;
+                            const titleError = document.getElementById('titleError');
+                            const regex = /^[a-zA-Z\s]+$/;
+
+                            if (title.trim() === "" || !regex.test(title) || title.length < 3) {
+                                titleError.textContent =
+                                    "Le titre doit être une chaîne de caractères, ne pas être vide et contenir plus de 3 caractères.";
+                                titleError.style.color = "red";
+                            } else {
+                                titleError.textContent = "";
+                            }
+                        }
+
+                        // Fonction de validation pour le lieu
+                        function validateLocation() {
+                            const location = document.getElementById('location').value;
+                            const locationError = document.getElementById('locationError');
+
+                            if (location.trim() === "" || /\d/.test(location)) {
+                                locationError.textContent =
+                                    "Le lieu ne doit pas être vide et ne doit pas contenir de chiffres.";
+                                locationError.style.color = "red";
+                            } else {
+                                locationError.textContent = "";
+                            }
+                        }
+
+                        // Fonction de validation pour la description
+                        function validateDescription() {
+                            const description = document.getElementById('description').value;
+                            const descriptionError = document.getElementById('descriptionError');
+
+                            if (description.trim() === "" || description.length < 3) {
+                                descriptionError.textContent =
+                                    "La description doit être supérieure à 3 caractères et ne pas être vide.";
+                                descriptionError.style.color = "red";
+                            } else {
+                                descriptionError.textContent = "";
+                            }
+                        }
+
+                        // Fonction de validation pour l'image
+                        function validateImage() {
+                            const image = document.getElementById('image').files[0];
+                            const imageError = document.getElementById('imageError');
+
+                            if (!image) {
+                                imageError.textContent = "L'image est obligatoire.";
+                                imageError.style.color = "red";
+                            } else {
+                                imageError.textContent = "";
+                            }
+                        }
+
+                        // Attacher les événements keyup pour validation en temps réel
+                        document.getElementById('title').addEventListener('keyup', validateTitle);
+                        document.getElementById('location').addEventListener('keyup', validateLocation);
+                        document.getElementById('description').addEventListener('keyup', validateDescription);
+                        document.getElementById('image').addEventListener('change', validateImage);
+
+                        // Fonction de validation globale lors de la soumission
+                        document.getElementById("eventForm").addEventListener("submit", function(event) {
+                            validateTitle();
+                            validateLocation();
+                            validateDescription();
+                            validateImage();
+
+                            // Vérifier si des erreurs existent avant d'envoyer
+                            const titleError = document.getElementById('titleError').textContent;
+                            const locationError = document.getElementById('locationError').textContent;
+                            const descriptionError = document.getElementById('descriptionError').textContent;
+                            const imageError = document.getElementById('imageError').textContent;
+
+                            // Si une erreur existe, on bloque la soumission
+                            if (titleError || locationError || descriptionError || imageError) {
+                                event.preventDefault();
+                                alert('Veuillez corriger les erreurs avant de soumettre le formulaire.');
+                            }
+                        });
+                        </script>
+
 
                     </div>
-                    <!-- Page body end -->
                 </div>
             </div>
-            <!-- Main-body end -->
-            <div id="styleSelector"></div>
+            <!-- Page body end -->
         </div>
+    </div>
+    <!-- Main-body end -->
+    <div id="styleSelector"></div>
+    </div>
     </div>
     </div>
     </div>

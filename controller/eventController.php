@@ -4,6 +4,7 @@ require_once __DIR__ . '/sponsorManager.php';
 require_once __DIR__ . '/../model/DB.php';
 require_once __DIR__ . '/../model/Event.php';
 require_once __DIR__ . '/../model/EventManager.php';
+require_once __DIR__ . '/../view/fpdf185/fpdf.php';
 
 $pdo = Database::getConnection();
 $eventManager = new EventManager($pdo);
@@ -17,6 +18,45 @@ function listEvents()
 function getEventById($id) {
     global $eventManager;
     return $eventManager->getEventById($id); 
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_event'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $eventId = $_POST['event_id'];
+
+    // Vérifier que l'événement existe
+    $event = getEventById($eventId);
+    if (!$event) {
+        die('Événement introuvable.');
+    }
+
+    // Créer le PDF
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+
+    // Titre de l'événement
+    $pdf->Cell(0, 10, 'Inscription a l\'evenement : ' . htmlspecialchars($event['title']), 0, 1, 'C');
+    $pdf->Ln(10);
+
+    // Détails de l'événement
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->Cell(0, 10, 'Date : ' . date('d M Y', strtotime($event['date'])), 0, 1);
+    $pdf->Cell(0, 10, 'Lieu : ' . htmlspecialchars($event['location']), 0, 1);
+  
+    $eventImage = htmlspecialchars($event['image']); // Chemin de l'image de l'événement
+    $pdf->Image($eventImage, 15, 50, 180, 100, 'JPEG'); // Ajouter l'image (ajustez les coordonnées et taille selon vos besoins)
+
+    $pdf->Ln(100);
+
+    // Informations de l'utilisateur
+    $pdf->Cell(0, 10, 'Nom : ' . htmlspecialchars($name), 0, 1);
+    $pdf->Cell(0, 10, 'Email : ' . htmlspecialchars($email), 0, 1);
+
+    // Télécharger le PDF
+    $pdf->Output('D', 'Inscription_' . $event['title'] . '.pdf');
+    
+    exit();
 }
 
 
@@ -76,5 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo'l évenement a été supprimé en succès';
     }
     $sponsors = getAllSponsors();
+    
 }
 ?>
