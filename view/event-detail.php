@@ -24,6 +24,287 @@
 
     <link href="css/templatemo-tiya-golf-club.css" rel="stylesheet">
     <link rel="stylesheet" href="./sponsor.css">
+    <style>
+    /* Style de la section sponsor */
+    /* Section des événements */
+    .events-section {
+        background: linear-gradient(135deg, #f0f4f8, #ffffff);
+        padding: 50px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .events-section h2 {
+        text-align: center;
+        font-size: 2.8rem;
+        color: #1e88e5;
+        font-weight: bold;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .events-section h2::after {
+        content: '';
+        width: 80px;
+        height: 4px;
+        background: #1e88e5;
+        display: block;
+        margin: 10px auto;
+        border-radius: 2px;
+    }
+
+    #eventsContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    /* Carte de l'événement */
+    .event-item {
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+    }
+
+    .event-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .custom-block-date-wrap {
+        background: #1e88e5;
+        color: #ffffff;
+        text-align: center;
+        padding: 10px;
+        font-size: 1.2rem;
+    }
+
+    .custom-block-date-wrap h6 {
+        font-size: 2rem;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .custom-block-date-wrap strong {
+        font-size: 1.2rem;
+    }
+
+    .custom-block-image-wrap img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .custom-block-info {
+        padding: 20px;
+    }
+
+    .custom-block-info a.events-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #1e88e5;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+        transition: color 0.3s;
+    }
+
+    .custom-block-info a.events-title:hover {
+        color: #1565c0;
+    }
+
+    .custom-block-info p {
+        font-size: 1rem;
+        color: #666666;
+        margin-bottom: 15px;
+    }
+
+    .custom-block-span {
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .custom-block-info .border-top {
+        border-top: 1px solid #e0e0e0;
+        padding-top: 15px;
+    }
+
+    /* Effets décoratifs */
+    .events-section::before,
+    .events-section::after {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(30, 136, 229, 0.2) 10%, transparent 80%);
+        z-index: -1;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .events-section::before {
+        top: -50px;
+        left: -50px;
+    }
+
+    .events-section::after {
+        bottom: -50px;
+        right: -50px;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(20px);
+        }
+    }
+
+    .sponsor-section {
+        background: linear-gradient(135deg, #1e1e2f, #4a00e0);
+        color: #fff;
+        padding: 50px 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .sponsor-section h3 {
+        font-size: 3rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #ffeb3b;
+        margin-bottom: 40px;
+        position: relative;
+        animation: glow 1.5s infinite alternate;
+    }
+
+    /* Glow effect for the title */
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b, 0 0 30px #ffeb3b, 0 0 40px #ffeb3b;
+        }
+
+        to {
+            text-shadow: 0 0 20px #ffe873, 0 0 30px #ffe873, 0 0 40px #ffe873, 0 0 50px #ffe873;
+        }
+    }
+
+    .sponsor-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .sponsor-item {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #ffeb3b;
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        transition: transform 0.4s, box-shadow 0.4s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .sponsor-item:hover {
+        transform: scale(1.1) rotate(-3deg);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .sponsor-logo img {
+        max-width: 120px;
+        max-height: 120px;
+        border-radius: 50%;
+        border: 3px solid #ffeb3b;
+        box-shadow: 0 0 15px #ffeb3b;
+        transition: transform 0.3s ease;
+    }
+
+    .sponsor-logo img:hover {
+        transform: scale(1.2);
+    }
+
+    .sponsor-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #ffeb3b;
+        text-transform: uppercase;
+    }
+
+    .sponsor-description {
+        font-size: 1rem;
+        color: #fff;
+        margin: 15px 0;
+        line-height: 1.5;
+    }
+
+    .sponsor-website {
+        color: #00ffdd;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .sponsor-website:hover {
+        color: #00b3b3;
+        transform: scale(1.1);
+    }
+
+    /* Decorative lines */
+    .sponsor-section::before,
+    .sponsor-section::after {
+        content: '';
+        position: absolute;
+        width: 200%;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, transparent 60%);
+        animation: spin 10s linear infinite;
+        z-index: 0;
+    }
+
+    .sponsor-section::before {
+        top: -150px;
+        left: -50%;
+    }
+
+    .sponsor-section::after {
+        bottom: -150px;
+        left: -50%;
+        animation-direction: reverse;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    </style>
+
+
+    <!--
+
+TemplateMo 587 Tiya Golf Club
+
+https://templatemo.com/tm-587-tiya-golf-club
+
+-->
 </head>
 
 <body>
@@ -98,15 +379,7 @@
                         echo '<div class="sponsor-item">';
 
                         // Affichage du logo
-                        if (isset($sponsor['logo']) && !empty($sponsor['logo']) && file_exists('../view/images/' . $sponsor['logo'])) {
-                            echo '<div class="sponsor-logo">';
-                            echo '<img src="../view/images/' . htmlspecialchars($sponsor['logo']) . '" alt="' . htmlspecialchars($sponsor['nom_sp']) . '" class="img-fluid">';
-                            echo '</div>';
-                        } else {
-                            echo '<div class="sponsor-logo">';
-                            echo '<img src="path/to/default-placeholder.jpg" alt="Placeholder" class="img-fluid">';
-                            echo '</div>';
-                        }
+                        
 
                         // Affichage du nom du sponsor
                         if (isset($sponsor['nom_sp']) && !empty($sponsor['nom_sp'])) {

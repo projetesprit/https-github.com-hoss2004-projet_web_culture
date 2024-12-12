@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom_sp'])) {
 
     
     addSponsor($nom_sp, $website, $description, $logoPath);
+    
+    header('Location: ../view/backoffice/add_sponsor.php?action=list');
+    exit;
 }
 
 
@@ -36,14 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_sponsor'])) {
     }
 
    
-    updateSponsor($id_sponsor, $nom_sp, $website, $description, $logo);
-    echo'le sponsor a été modifié en succès';
+    header('Location: ../view/backoffice/breadcrumb.php?action=list');
+    exit;  
 }
-
 
 if (isset($_GET['delete_sponsor'])) {
     $id_sponsor = $_GET['delete_sponsor'];
+
+    // Suppression du sponsor
     deleteSponsor($id_sponsor);
-    echo'le sponsor a été supprimé en succès';
+
+    // Redirection vers la page des sponsors après la suppression
+    header('Location: ../view/backoffice/breadcrumb.php?action=list');
+    exit;  // Stopper l'exécution après la redirection
 }
+
 ?>

@@ -283,20 +283,15 @@
                         <div class="page-header">
                             <div class="page-block">
                                 <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="page-header-title">
-                                            <h5 class="m-b-10">Bootstrap Basic Tables</h5>
-                                            <p class="m-b-0">Lorem Ipsum is simply dummy text of the printing</p>
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-4">
                                         <ul class="breadcrumb-title">
                                             <li class="breadcrumb-item">
                                                 <a href="index.html"> <i class="fa fa-home"></i> </a>
                                             </li>
-                                            <li class="breadcrumb-item"><a href="#!">Bootstrap Tables</a>
+                                            <li class="breadcrumb-item"><a href="#!">components</a>
                                             </li>
-                                            <li class="breadcrumb-item"><a href="#!">Basic Tables</a>
+                                            <li class="breadcrumb-item"><a href="#!">event table</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -305,87 +300,101 @@
                         </div>
                         <!-- Page-header end -->
 
-                        <div class="card-block table-border-style">
-                            <div class="table-responsive">
-                                <?php
-        require_once '../../controller/eventController.php';
-        $events = listEvents();
-        ?>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+                                        <!-- Basic table card start -->
+                                        <div class="card">
 
-                                            <th>Titre</th>
-                                            <th>Date</th>
-                                            <th>Lieu</th>
-                                            <th>Description</th>
-                                            <th>Image</th>
-                                            <th>Nom_sponsor</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php if (!empty($events)): ?>
-                                        <?php foreach ($events as $event): ?>
-                                        <tr>
+                                            <!-- Contextual classes table ends -->
+                                            <!-- Background Utilities table start -->
 
-                                            <td><?= htmlspecialchars($event['title']); ?></td>
-                                            <td><?= date('d M Y', strtotime($event['date'])); ?>
-                                            </td>
-                                            <td><?= htmlspecialchars($event['location']); ?></td>
-                                            <td><?= htmlspecialchars($event['description']); ?></td>
-                                            <td>
-                                                <?php
-    // Vérifier si l'image existe et utiliser le chemin correct
-    $imagePath = '../../images/' . htmlspecialchars($event['image']);
-    
-    if (!empty($event['image']) && file_exists($imagePath)): ?>
-                                                <img src="<?= $imagePath; ?>" alt="Image" width="50">
-                                                <?php else: ?>
-                                                <span>Pas d'image</span>
-                                                <?php endif; ?>
-                                            </td>
+                                            <div class="card-block table-border-style">
+                                                <div class="table-responsive">
+                                                    <?php
+                                            require_once '../../controller/eventController.php';
+                                            $events = listEvents();
+                                ?>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
 
-                                            <td><?= htmlspecialchars($event['nom_sp'] ?? 'Non spécifié'); ?>
-                                            </td>
-                                            <td>
-                                                <a href="../../controller/eventController.php?delete_event=<?= htmlspecialchars($event['id']); ?>"
-                                                    class="btn btn-danger"
-                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
-                                                    Supprimer
-                                                </a>
-                                                <a href="edit_event.php?id=<?= htmlspecialchars($event['id']); ?>"
-                                                    class="btn btn-warning">Modifier</a>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                        <?php else: ?>
-                                        <tr>
-                                            <td colspan="8" class="text-center">Aucun événement
-                                                trouvé.</td>
-                                        </tr>
-                                        <?php endif; ?>
-                                    </tbody>
-                                </table>
+                                                                <th>Titre</th>
+                                                                <th>Date</th>
+                                                                <th>Lieu</th>
+                                                                <th>Description</th>
+                                                                <th>Image</th>
+                                                                <th>Nom_sponsor</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php if (!empty($events)): ?>
+                                                            <?php foreach ($events as $event): ?>
+                                                            <tr>
+
+                                                                <td><?= htmlspecialchars($event['title']); ?></td>
+                                                                <td><?= date('d M Y', strtotime($event['date'])); ?>
+                                                                </td>
+                                                                <td><?= htmlspecialchars($event['location']); ?></td>
+                                                                <td><?= htmlspecialchars($event['description']); ?></td>
+                                                                <td>
+                                                                    <?php
+                                                $imagePath = '../../images/' . htmlspecialchars($event['image']);
+                                                
+                                                if (!empty($event['image']) && file_exists($imagePath)): ?>
+                                                                    <img src="<?= $imagePath; ?>" alt="Image"
+                                                                        width="50">
+                                                                    <?php else: ?>
+                                                                    <span>Pas d'image</span>
+                                                                    <?php endif; ?>
+                                                                </td>
+
+                                                                <td><?= htmlspecialchars($event['nom_sp'] ?? 'Non spécifié'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="../../controller/eventController.php?delete_event=<?= htmlspecialchars($event['id']); ?>"
+                                                                        class="btn btn-danger"
+                                                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                                                        Supprimer
+                                                                    </a>
+                                                                    <a href="edit_event.php?id=<?= htmlspecialchars($event['id']); ?>"
+                                                                        class="btn btn-warning">Modifier</a>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
+                                                            <?php else: ?>
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">Aucun événement
+                                                                    trouvé.</td>
+                                                            </tr>
+                                                            <?php endif; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- Background Utilities table end -->
+                                    </div>
+                                    <!-- Page-body end -->
+                                </div>
+                            </div>
+                            <!-- Main-body end -->
+
+                            <div id="styleSelector">
 
                             </div>
                         </div>
-
-                    </div>
-                    <!-- Contextual classes table ends -->
-                    <!-- Background Utilities table start -->
-
-                    <!-- Main-body end -->
-
-                    <div id="styleSelector">
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    </div>
+
 
     <!-- Warning Section Starts -->
     <!-- Older IE warning message -->

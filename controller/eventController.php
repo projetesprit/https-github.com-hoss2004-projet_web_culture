@@ -84,11 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($id) {
-         
+        // Mise à jour de l'événement
         $eventManager->updateEvent($id, $title, $date, $location, $description, $imagePath, $id_sponsor);
-        echo'l évenement a été modifé en succès';
-    } else {
         
+        // Rediriger vers la page des événements après la mise à jour
+        header('Location: ../view/backoffice/accordion.php?action=list');
+        exit; // N'oubliez pas d'utiliser exit pour stopper l'exécution du script après la redirection
+    } else {
+        // Création d'un nouvel événement
         $event = new Event();
         $event->setTitle($title);
         $event->setDate($date);
@@ -96,25 +99,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $event->setDescription($description);
         $event->setImage($imagePath);
         $event->setIdSponsor($id_sponsor);
-
+    
         $eventManager->createEvent($event);
-        echo 'L\'événement a été ajouté avec succès !';
+        
+        // Rediriger vers la page des événements après l'ajout
+        header('Location: ../view/backoffice/accordion.php?action=list');
+        exit; // Stopper l'exécution après la redirection
     }
+    
 } else {
-   
     $event = null;
     if (isset($_GET['id'])) {
         $eventId = $_GET['id'];
         $event = $eventManager->getEventById($eventId);  
     }
+    
     if (isset($_GET['delete_event'])) {
         $id_event = intval($_GET['delete_event']);
-
+    
+        // Suppression de l'événement
         $eventManager->deleteEvent($id_event);
-
-        
-        echo'l évenement a été supprimé en succès';
+    
+        // Redirection vers la liste des événements après la suppression
+        header('Location: ../view/backoffice/accordion.php?action=list');
+        exit; // Stopper l'exécution du script après la redirection
     }
+    
     $sponsors = getAllSponsors();
     
 }
